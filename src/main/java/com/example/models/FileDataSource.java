@@ -21,23 +21,25 @@ public class FileDataSource implements DataSource {
     }
 
     private List<Task> tryReadData() throws FileNotFoundException {
-        List<Task> taskList = new ArrayList<>();
+        List<Task> taskList = new ArrayList<>();        
         File file = new File(fileName);
-        try(Scanner scanner = new Scanner(file)) {
+        try (Scanner scanner = new Scanner(file, "utf-8")) {
             scanner.nextLine();
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 taskList.add(makeTask(line));
             }
         }
-
         return taskList;
     }
 
-    
-
     private Task makeTask(String line) {
         String[] parts = line.split(":");
+
+        if(parts.length != 7) {
+            throw new RuntimeException("Hiba! 7 mezőnek kell lennie!");
+        }
+
         Task task = new Task();
         task.setId(parts[0]);
         task.setQuestion(parts[1]);
@@ -48,4 +50,5 @@ public class FileDataSource implements DataSource {
         task.setCorrect(parts[6]);
         return task;
     }
+
 }

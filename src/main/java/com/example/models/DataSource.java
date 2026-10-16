@@ -3,6 +3,5 @@ package com.example.models;
 import java.util.List;
 
 public interface DataSource {
-    List<Task> readData();
-    
+    public List<Task> readData();
 }
